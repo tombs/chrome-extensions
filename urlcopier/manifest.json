@@ -1,0 +1,28 @@
+{
+    "name": "URL Copier",
+    "description": "Copies the URL and page title from multiple tabs",
+    "version": "0.1",
+    "manifest_version": 3,
+    "icons": {
+        "48": "/assets/icons/48.png",
+        "128": "/assets/icons/128.png"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "48": "/assets/icons/48.png",
+            "128": "/assets/icons/128.png"
+        }
+    },
+	"permissions": [
+		"contextMenus",
+		"notifications",
+		"storage",
+        "tabs",
+        "clipboardWrite"
+	],
+    "background": {
+        "service_worker": "background.js"
+      }
+
+}
