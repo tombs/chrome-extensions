@@ -1,9 +1,55 @@
 // popup.js
 
 document.addEventListener('DOMContentLoaded', function () {
-    var checkButton = document.getElementById('checkButton');
     var resultDiv = document.getElementById('result');
     const checkSaved = document.getElementById("checkSaved");
+    const fileInput = document.getElementById("fileInput");
+    const uploadButton = document.getElementById("uploadButton");
+    const checkButton = document.getElementById("checkButton");
+
+    uploadButton.addEventListener("click", function () {
+      const file = fileInput.files[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+              const wordsText = event.target.result;
+              console.log("WORDS TEXT: ", wordsText)
+              const wordsArray = wordsText
+                  .split("\r\n")
+                  .filter((word) => word.trim() !== "");
+              const wordSet = new Set(wordsArray);
+
+              // Save the word set to Chrome storage
+              chrome.storage.local.set(
+                  { wordSet: Array.from(wordSet) },
+                  function () {
+                      if (chrome.runtime.lastError) {
+                          console.error(
+                              "Error uploading words:",
+                              chrome.runtime.lastError
+                          );
+                      } else {
+                          console.log(
+                              "Word set uploaded and stored in Chrome storage."
+                          );
+                          // Retrieve the stored data to verify
+                          chrome.storage.local.get(
+                              "wordSet",
+                              function (result) {
+                                  console.log("Stored data:", result.wordSet);
+                                  console.log(
+                                      "Stored data count:",
+                                      result.wordSet.length
+                                  );
+                              }
+                          );
+                      }
+                  }
+              );
+          };
+          reader.readAsText(file);
+      }
+  });
 
     checkSaved.addEventListener("click", function() {
         chrome.storage.local.get(null, function(result) {
@@ -12,6 +58,12 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(storedWords);
             // Update UI or perform other operations with the stored words
           });
+
+          chrome.storage.local.get(['matchedWords'], ({ matchedWords }) => {
+            // Access the matchedWords array here
+            console.log("STORED MATCHED WORDS: ", matchedWords);
+          });
+          
     })
 
   

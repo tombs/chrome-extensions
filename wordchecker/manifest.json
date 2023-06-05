@@ -14,14 +14,24 @@
     "host_permissions": [
         "*://*/*"
     ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "overlay.html"
+        ],
+        "matches": [
+          "https://*/*",
+          "http://*/*"
+        ]
+      }
+    ],
     "background": {
         "service_worker": "background.js"
       },
       "content_scripts": [
         {
           "matches": ["*://*/*"],
-          "js": ["content.js"],
-          "run_at": "document_end"
+          "js": ["content.js"]
         }
       ]
   }
