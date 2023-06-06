@@ -5,3 +5,20 @@
       <button id="closeButton">Close</button>
     </div>
   </div>
+  <script>
+    // JavaScript code for the overlay functionality
+    // ...
+
+    // Example code for closing the overlay when the close button is clicked
+    alert("hey")
+    const closeButton = document.getElementById('closeButton');
+    closeButton.addEventListener('click', () => {
+      alert("hi")
+      // Remove the overlay from the DOM
+      const overlayContent = document.getElementById('overlayContent');
+      if (overlayContent) {
+        alert("hello")
+        overlayContent.style.display = 'none';
+      }
+    });
+  </script>

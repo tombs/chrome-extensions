@@ -31,11 +31,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
   });
   
-  // Function to handle the message from popup
-  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log("RECEIVED REQUEST FROM POPUP")
-    if (request.action === 'checkWords') {
 
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("1---")
+    console.log("SENDER: ", sender)
+    console.log("RECEIVED MESSAGE FROM CONTENT: ", request.action)
+    if (request.action === 'checkWords') {
+      console.log("2---")
+      console.log("CHECK WORDS REQUEST")
       chrome.storage.local.get('wordSet', function(result) {
         var data = result.wordSet;
         console.log("DATA: ", data)
@@ -72,16 +75,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     //         );
     //     }
     // );
+    // return true;
 
     }
-  
-    return true;
-  });
-  
 
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("RECEIVED MESSAGE FROM CONTENT: ", request.action)
-    if (request.action === 'fetchOverlayHTML') {
+    else if (request.action === 'fetchOverlayHTML') {
+      console.log("3---")
+      console.log("FETCH OVERLAY REQUEST")
       fetch(chrome.runtime.getURL('overlay.html'))
         .then(response => response.text())
         .then(htmlContent => {
@@ -92,6 +92,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           sendResponse(null);
         });
       
-      return true; // To indicate that a response will be sent asynchronously
+      // return true; // To indicate that a response will be sent asynchronously
     }
+    return true;
   });

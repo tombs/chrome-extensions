@@ -1,11 +1,27 @@
 // popup.js
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("DOCUMENT LOADED!")
     var resultDiv = document.getElementById('result');
     const checkSaved = document.getElementById("checkSaved");
     const fileInput = document.getElementById("fileInput");
     const uploadButton = document.getElementById("uploadButton");
     const checkButton = document.getElementById("checkButton");
+    const clearMatched = document.getElementById("clearMatched");
+
+    // chrome.runtime.sendMessage({ action: 'checkWords' }, (response) => {
+    //   console.log("TO BG CHECKING WORDS")
+    //   if (response && response.matchedWords) {
+    //     var matchedWords = response.matchedWords;
+    //     if (matchedWords.length > 0) {
+    //       resultDiv.textContent = 'Matched words: ' + matchedWords.join(', ');
+    //     } else {
+    //       resultDiv.textContent = 'No matched words found.';
+    //     }
+    //   } else {
+    //     resultDiv.textContent = 'Error occurred while checking words.';
+    //   }
+    // });
 
     uploadButton.addEventListener("click", function () {
       const file = fileInput.files[0];
@@ -66,6 +82,12 @@ document.addEventListener('DOMContentLoaded', function () {
           
     })
 
+
+    clearMatched.addEventListener("click", function() {
+      console.log("CLEARING MATCHED WORDS")
+      chrome.storage.local.set({ matchedWords: null });
+        
+  })
   
     checkButton.addEventListener('click', function () {
       console.log("CLICKED THE CHECK BUTTON")
